@@ -116,3 +116,20 @@ cd /etc/wireguard/
 qrencode -t ansiutf8 < wg1.conf
 
 #Scan the QR code from your phone.
+
+#WinSCP. نرم افزار دیدن فایلای لینوکس
+https://soft98.ir/internet/ftp-tools/748-winscp.html
+
+#WireGuard Soft. نرم افزار وایرگارد برای دیوایس های مختلف
+
+# Win 32. ویندوز 32 بیتی
+https://www.uplooder.net/files/be3aae21a20551904422ee1a170747ec/wire32.zip.html
+
+#win 64. ویندوز 64 بیتی
+https://www.uplooder.net/files/6ed0a416f8d537332c710a5664e889dd/wire64.zip.html
+
+#Android. اندروید
+https://www.uplooder.net/files/8a52533bbf7bec80224b2f8955795273/android.zip.html
+
+#IOS-Mac. آیفون و مک
+https://www.uplooder.net/files/37a0e4fc0e7d0404595ca31591ddfb66/IOS-Mac.zip.html
