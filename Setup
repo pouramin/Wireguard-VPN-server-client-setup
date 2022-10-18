@@ -17,22 +17,24 @@ https://dashboard.azaronline.com/order/?aff=790
 
 # EU-SERVER
 
-Add REP: echo 'deb http://ftp.debian.org/debian buster-backports main' | sudo tee /etc/apt/sources.list.d/buster-backports.list
+#Add REP. اضافه کردن ریپازتوری
+echo 'deb http://ftp.debian.org/debian buster-backports main' | sudo tee /etc/apt/sources.list.d/buster-backports.list
 
+#Update server and Wirguard instalation. آپدیت سرور و نصب وایرکارد
 sudo apt update
 sudo apt install wireguard
 sudo apt install iptables
 
-#Generate Private and Public keys.
+#Generate Private and Public keys. ساخت کلید عمومی و خصوصی سرور
 wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
 
-#Find Privarekey
+#Find Privarekey. دیدن کلید خصوصی
 cat privatekey
 
-#Create Server Configuration:
+#Create Server Configuration. ساخت فایل کانفیگ سرور
 sudo nano /etc/wireguard/wg0.conf
 
-#Paste following to the file.
+#Paste following to the file. کدها مورد نیاز کانفیگ
 
 [Interface]
 Address = 10.0.0.1/24
@@ -43,6 +45,8 @@ PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o 
 PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 #Save the File
+// اگه کنجکاوید بدونید چی میشه این کدارو ران کنید. 
+// در غیر اینصورت برید به فوروارد آیپی ورژن 4
 
 #Start the wg config.
 sudo wg-quick up wg0
@@ -73,24 +77,20 @@ inet 10.0.0.1/24 scope global wg0
 valid_lft forever preferred_lft forever
 
 
-#Allow ipv4 forward.
+#Allow ipv4 forward. فوروارد آیپی ورژن 4
 sysctl net.ipv4.ip_forward=1
 
-#check that ipv4 is enable.
-sysctl -p
-#Output should be:
-net.ipv4.ip_forward = 1
 
-#Enable to start with system
+#Enable to start with system. استارت آپ وایرگارد
 sudo systemctl enable wg-quick@wg0
 
-#Server publickey
+#Server publickey. دیدن کلید عمومی سرور
 cat publickey
 
-#Create client config.
+#Create client config. ساخت یوزر
 nano /etc/wireguard/wg1.conf
 
-#Paste the following to the file.
+#Paste the following to the file. کدهای مورد نیاز ساخت یوزر
 #Change the lines to your keys and ip addr!
 [Interface]
 PrivateKey = CLIENT_PRIVATE_KEY
@@ -101,14 +101,14 @@ PublicKey = SERVER_PUBLIC_KEY
 Endpoint = SERVER_IP_ADDRESS:51820
 AllowedIPs = 0.0.0.0/0
 
-#Save the file and add the client public key with following command.
+#Save the file and add the client public key with following command. اضافه کردن یوزر به کانفیگ
 sudo wg set wg0 peer CLIENT_PUBLIC_KEY allowed-ips 10.0.0.2
 
 Watch wg show
 
 #Connect to the vpn from PC/Phone
 
-#TO export the config to a qr-code install the following.
+#TO export the config to a qr-code install the following. ساخت کیو آر کد برای یوزر
 
 sudo apt install qrencode
 cd /etc/wireguard/
@@ -116,6 +116,11 @@ cd /etc/wireguard/
 qrencode -t ansiutf8 < wg1.conf
 
 #Scan the QR code from your phone.
+
+--------------------------
+
+#Softs. نرم افزارها 
+
 
 #WinSCP. نرم افزار دیدن فایلای لینوکس
 https://soft98.ir/internet/ftp-tools/748-winscp.html
